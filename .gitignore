@@ -1,5 +1,8 @@
+# Node and Composer dependencies
 /vendor/
-node_modules/
+/node_modules/
+
+# Debug and error logs
 npm-debug.log
 yarn-error.log
 
@@ -15,9 +18,32 @@ public/hot
 public_html/storage
 public_html/hot
 
+# Storage and environment files
 storage/*.key
 .env
+.env.backup
+.env.production
+
+# Homestead specific files
 Homestead.yaml
 Homestead.json
+
+# Vagrant files
 /.vagrant
+
+# PHPUnit cache and result files
 .phpunit.result.cache
+/.phpunit.cache
+
+# Editor and IDE specific files
+/.phpactor.json
+/.fleet
+/.idea
+/.vscode
+
+# Build and hot files
+/public/build
+/public/hot
+
+# Miscellaneous
+auth.json
