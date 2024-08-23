@@ -3,62 +3,72 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Sale;
+use App\Models\Glasses;
 
-class SaleController
+class SaleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $sales = Sale::orderBy('created_at', 'DESC')->paginate(10); 
+        return view('sales.index', compact('sales'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
+    
     public function create()
     {
-        //
+        $glasses = Glasses::all();
+        return view('sales.create', compact('glasses'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'glasses_id' => 'required|exists:glasses,id',
+            'quantity' => 'required|integer',
+            'customer_name' => 'required|string',
+            'gross_value' => 'required|numeric',
+            'net_value' => 'required|numeric',
+        ]);
+
+        Sale::create($request->all());
+
+        return redirect()->route('sales.index')->with('success', 'Sale created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $sale = Sale::findOrFail($id);
+        return view('sales.show', compact('sale'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $sale = Sale::findOrFail($id);
+        $glasses = Glasses::all();
+        return view('sales.edit', compact('sale', 'glasses'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'glasses_id' => 'required|exists:glasses,id',
+            'quantity' => 'required|integer',
+            'customer_name' => 'required|string',
+            'gross_value' => 'required|numeric',
+            'net_value' => 'required|numeric',
+        ]);
+
+        $sale = Sale::findOrFail($id);
+        $sale->update($request->all());
+
+        return redirect()->route('sales.index')->with('success', 'Sale updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $sale = Sale::findOrFail($id);
+        $sale->delete();
+
+        return redirect()->route('sales.index')->with('success', 'Sale deleted successfully.');
     }
 }

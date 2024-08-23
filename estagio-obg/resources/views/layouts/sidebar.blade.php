@@ -31,6 +31,13 @@
       <i class="fas fa-fw fa-glasses"></i>
       <span>Óculos</span></a>
   </li>
+
+  <!-- Nav Item - Sales -->
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('sales.index') }}">
+      <i class="fas fa-fw fa-shopping-cart"></i>
+      <span>Sales</span></a>
+  </li>
   
   <!-- Nav Item - Perfil -->
   <li class="nav-item">
