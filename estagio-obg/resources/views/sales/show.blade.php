@@ -12,7 +12,7 @@
         </div>
         <div class="col mb-3">
             <label class="form-label">Nome do Cliente</label>
-            <input type="text" class="form-control" value="{{ $sale->customer_name }}" readonly>
+            <input type="text" class="form-control" value="{{ $sale->cliente->name }}" readonly>
         </div>
     </div>
     <div class="row">

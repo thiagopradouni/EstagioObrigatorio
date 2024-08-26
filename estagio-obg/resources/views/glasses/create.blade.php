@@ -47,6 +47,10 @@
                 <label class="form-label">Custo Unitário</label>
                 <input type="number" step="0.01" name="unit_cost" class="form-control" value="{{ old('unit_cost') }}" required>
             </div>
+            <div class="form-group">
+                <label for="sale_price">Valor de Venda</label>
+                <input type="number" step="0.01"  name="sale_price" class="form-control" id="sale_price" name="sale_price" value="{{ old('sale_price', $glass->sale_price ?? '') }}">
+            </div>
         </div>
         <div class="row mb-3">
             <div class="col">

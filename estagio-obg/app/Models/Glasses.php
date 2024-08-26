@@ -16,6 +16,7 @@ class Glasses extends Model
         'description',
         'quantity',
         'unit_cost',
+        'sale_price',
         'brand',
         'line_material',
         'color'

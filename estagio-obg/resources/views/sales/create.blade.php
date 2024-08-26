@@ -10,40 +10,34 @@
         <div class="row mb-3">
             <div class="col">
                 <label for="glasses_id" class="form-label">Selecionar Óculos</label>
-                <select name="glasses_id" id="glasses_id" class="form-control">
+                <select name="glasses_id" id="glasses_id" class="form-control" required>
                     @foreach($glasses as $glass)
                         <option value="{{ $glass->id }}">{{ $glass->description }}</option>
                     @endforeach
                 </select>
             </div>
             <div class="col">
-                <label for="quantity" class="form-label">Quantidade</label>
-                <input type="number" name="quantity" id="quantity" class="form-control" placeholder="Informe a Quantidade">
-            </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col">
-                <label for="customer_name" class="form-label">Nome do Cliente</label>
-                <input type="text" name="customer_name" id="customer_name" class="form-control" placeholder="Informe o Nome do Cliente">
-            </div>
-            <div class="col">
-                <label for="payment_method" class="form-label">Forma de Pagamento</label>
-                <select name="payment_method" id="payment_method" class="form-control">
-                    <option value="Cash">Dinheiro</option>
-                    <option value="Credit Card">Cartão de Crédito</option>
-                    <option value="Debit Card">Cartão de Débito</option>
-                    <option value="Bank Transfer">Transferência Bancária</option>
+                <label for="cliente_id" class="form-label">Selecionar Cliente</label>
+                <select name="cliente_id" id="cliente_id" class="form-control" required>
+                    @foreach($clientes as $cliente)
+                        <option value="{{ $cliente->id }}">{{ $cliente->nome }}</option>
+                    @endforeach
                 </select>
             </div>
         </div>
         <div class="row mb-3">
             <div class="col">
-                <label for="gross_value" class="form-label">Valor Bruto</label>
-                <input type="number" name="gross_value" id="gross_value" class="form-control" step="0.01" placeholder="Informe o Valor Bruto">
+                <label for="quantity" class="form-label">Quantidade</label>
+                <input type="number" name="quantity" id="quantity" class="form-control" placeholder="Informe a Quantidade" required>
             </div>
             <div class="col">
-                <label for="net_value" class="form-label">Valor Líquido</label>
-                <input type="number" name="net_value" id="net_value" class="form-control" step="0.01" placeholder="Informe o Valor Líquido">
+                <label for="payment_method" class="form-label">Forma de Pagamento</label>
+                <select name="payment_method" id="payment_method" class="form-control" required>
+                    <option value="Cash">Dinheiro</option>
+                    <option value="Credit Card">Cartão de Crédito</option>
+                    <option value="Debit Card">Cartão de Débito</option>
+                    <option value="Bank Transfer">Pix</option>
+                </select>
             </div>
         </div>
         <div class="row mb-3">

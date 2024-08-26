@@ -13,56 +13,60 @@
             </ul>
         </div>
     @endif
-    <form action="{{ route('glasses.update', $glasses->id) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('glasses.update', $glass->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="row mb-3">
             <div class="col">
                 <label class="form-label">Código</label>
-                <input type="text" name="code" class="form-control" value="{{ old('code', $glasses->code) }}" required>
+                <input type="text" name="code" class="form-control" value="{{ old('code', $glass->code) }}" required>
             </div>
             <div class="col">
                 <label class="form-label">Tipo de Produto</label>
                 <select name="product_type" class="form-control" required>
-                    <option value="Solar" {{ old('product_type', $glasses->product_type) == 'Solar' ? 'selected' : '' }}>Solar</option>
-                    <option value="Receituario" {{ old('product_type', $glasses->product_type) == 'Receituario' ? 'selected' : '' }}>Receituario</option>
+                    <option value="Solar" {{ old('product_type', $glass->product_type) == 'Solar' ? 'selected' : '' }}>Solar</option>
+                    <option value="Receituario" {{ old('product_type', $glass->product_type) == 'Receituario' ? 'selected' : '' }}>Receituário</option>
                 </select>
             </div>
         </div>
         <div class="row mb-3">
             <div class="col">
                 <label class="form-label">Código Fantasia</label>
-                <input type="text" name="fantasy_code" class="form-control" value="{{ old('fantasy_code', $glasses->fantasy_code) }}" required>
+                <input type="text" name="fantasy_code" class="form-control" value="{{ old('fantasy_code', $glass->fantasy_code) }}" required>
             </div>
             <div class="col">
                 <label class="form-label">Cor</label>
-                <input type="text" name="color" class="form-control" value="{{ old('color', $glasses->color) }}" required>
+                <input type="text" name="color" class="form-control" value="{{ old('color', $glass->color) }}" required>
             </div>
         </div>
         <div class="row mb-3">
             <div class="col">
                 <label class="form-label">Quantidade</label>
-                <input type="number" name="quantity" class="form-control" value="{{ old('quantity', $glasses->quantity) }}" required>
+                <input type="number" name="quantity" class="form-control" value="{{ old('quantity', $glass->quantity) }}" required>
             </div>
             <div class="col">
                 <label class="form-label">Custo Unitário</label>
-                <input type="number" step="0.01" name="unit_cost" class="form-control" value="{{ old('unit_cost', $glasses->unit_cost) }}" required>
+                <input type="number" step="0.01" name="unit_cost" class="form-control" value="{{ old('unit_cost', $glass->unit_cost) }}" required>
+            </div>
+            <div class="col">
+                <label class="form-label">Valor de Venda</label>
+                <input type="number" step="0.01" name="sale_price" class="form-control" value="{{ old('sale_price', $glass->sale_price) }}" required>
             </div>
         </div>
         <div class="row mb-3">
             <div class="col">
                 <label class="form-label">Marca</label>
-                <input type="text" name="brand" class="form-control" value="{{ old('brand', $glasses->brand) }}" required>
+                <input type="text" name="brand" class="form-control" value="{{ old('brand', $glass->brand) }}" required>
             </div>
             <div class="col">
                 <label class="form-label">Linha/Material</label>
-                <input type="text" name="line_material" class="form-control" value="{{ old('line_material', $glasses->line_material) }}" required>
+                <input type="text" name="line_material" class="form-control" value="{{ old('line_material', $glass->line_material) }}" required>
             </div>
         </div>
         <div class="row mb-3">
-        <div class="col">
+            <div class="col">
                 <label class="form-label">Descrição</label>
-                <textarea name="description" class="form-control" required>{{ old('description', $glasses->description) }}</textarea>
+                <textarea name="description" class="form-control" required>{{ old('description', $glass->description) }}</textarea>
             </div>
         </div>
         <div class="row">

@@ -36,7 +36,7 @@
   <li class="nav-item">
     <a class="nav-link" href="{{ route('sales.index') }}">
       <i class="fas fa-fw fa-shopping-cart"></i>
-      <span>Sales</span></a>
+      <span>Vendas</span></a>
   </li>
   
   <!-- Nav Item - Perfil -->
