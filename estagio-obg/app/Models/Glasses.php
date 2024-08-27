@@ -21,4 +21,11 @@ class Glasses extends Model
         'line_material',
         'color'
     ];
+
+    public function sales()
+    {
+        return $this->belongsToMany(Sale::class, 'sale_glass')->withPivot('quantity');
+    }
+    
+
 }

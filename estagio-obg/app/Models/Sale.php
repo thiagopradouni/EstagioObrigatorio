@@ -10,10 +10,8 @@ class Sale extends Model
     use HasFactory;
 
     protected $fillable = [
-        'glasses_id',
-        'cliente_id',  // Adicionei o campo cliente_id
+        'cliente_id',
         'description',
-        'quantity',
         'discount',
         'payment_method',
         'gross_value',
@@ -22,27 +20,60 @@ class Sale extends Model
 
     public function glasses()
     {
-        return $this->belongsTo(Glasses::class);
+        return $this->belongsToMany(Glasses::class, 'sale_glass', 'sale_id', 'glass_id')->withPivot('quantity');
     }
-
+    
     public function cliente()
     {
-        return $this->belongsTo(Cliente::class);  // Relacionamento com o modelo Cliente
+        return $this->belongsTo(Cliente::class);
     }
 
-    // Calcula o valor bruto automaticamente
     public static function boot()
     {
         parent::boot();
 
         static::creating(function ($sale) {
-            $glass = Glasses::find($sale->product_id);
-            $sale->gross_value = $sale->quantity * $glass->sale_price;
+            $totalGrossValue = 0;
+
+            foreach ($sale->glasses as $glass) {
+                $pivotQuantity = $glass->pivot->quantity;
+
+                // Verifica se a quantidade vendida excede a quantidade em estoque
+                if ($pivotQuantity > $glass->quantity) {
+                    throw new \Exception('A quantidade vendida excede a quantidade disponível em estoque para o produto: ' . $glass->fantasy_code);
+                }
+
+                $totalGrossValue += $pivotQuantity * $glass->sale_price;
+            }
+
+            $sale->gross_value = $totalGrossValue;
+
+            // Define o valor de discount como 0.00 se estiver nulo
+            if (is_null($sale->discount)) {
+                $sale->discount = 0.00;
+            }
         });
 
         static::updating(function ($sale) {
-            $glass = Glasses::find($sale->product_id);
-            $sale->gross_value = $sale->quantity * $glass->sale_price;
+            $totalGrossValue = 0;
+
+            foreach ($sale->glasses as $glass) {
+                $pivotQuantity = $glass->pivot->quantity;
+
+                // Verifica se a quantidade vendida excede a quantidade em estoque
+                if ($pivotQuantity > $glass->quantity) {
+                    throw new \Exception('A quantidade vendida excede a quantidade disponível em estoque para o produto: ' . $glass->fantasy_code);
+                }
+
+                $totalGrossValue += $pivotQuantity * $glass->sale_price;
+            }
+
+            $sale->gross_value = $totalGrossValue;
+
+            // Define o valor de discount como 0.00 se estiver nulo
+            if (is_null($sale->discount)) {
+                $sale->discount = 0.00;
+            }
         });
     }
 }

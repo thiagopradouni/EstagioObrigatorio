@@ -25,40 +25,58 @@ class SaleController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'glasses_id' => 'required|exists:glasses,id',
+            'glasses_id' => 'required|array',
+            'glasses_id.*' => 'required|exists:glasses,id',
             'cliente_id' => 'required|exists:clientes,id',
-            'quantity' => 'required|integer|min:1',
+            'quantity' => 'required|array',
+            'quantity.*' => 'required|integer|min:1',
             'discount' => 'nullable|numeric',
-            'payment_method' => 'required|in:Cash,Credit Card,Debit Card,Bank Transfer',
+            'payment_method' => 'required|in:Dinheiro,Cartão de Crédito,Cartão de Débito,Pix',
         ]);
-
-        // Verifica se há estoque suficiente
-        $glass = Glasses::findOrFail($request->glasses_id);
-        if ($glass->quantity < $request->quantity) {
-            return redirect()->back()->withErrors('Estoque insuficiente para realizar a venda.');
+    
+        $totalGrossValue = 0;
+    
+        // Verifica estoque e calcula o valor total bruto
+        foreach ($request->glasses_id as $index => $glassId) {
+            $glass = Glasses::findOrFail($glassId);
+            $quantity = $request->quantity[$index];
+    
+            if ($glass->quantity < $quantity) {
+                return redirect()->back()->withErrors(['error' => 'Estoque insuficiente para realizar a venda do produto: ' . $glass->fantasy_code]);
+            }
+    
+            $totalGrossValue += $quantity * $glass->sale_price;
         }
-
-        // Calcula o valor bruto com base na quantidade e no valor de venda
-        $gross_value = $request->quantity * $glass->sale_price;
-
-        // Cria a venda com o valor bruto calculado
+    
+        // Verifica se o desconto não é maior que o valor bruto total
+        if ($request->discount > $totalGrossValue) {
+            return redirect()->back()->withErrors(['error' => 'O valor do desconto não pode ser maior que o valor total da venda.']);
+        }
+    
+        // Cria a venda
         $sale = Sale::create([
-            'glasses_id' => $request->glasses_id,
             'cliente_id' => $request->cliente_id,
-            'quantity' => $request->quantity,
-            'gross_value' => $gross_value,
-            'net_value' => $gross_value - ($request->discount ?? 0), // Calcula o valor líquido após o desconto
-            'discount' => $request->discount,
+            'gross_value' => $totalGrossValue,
+            'net_value' => $totalGrossValue - ($request->discount ?? 0), 
+            'discount' => $request->discount ?? 0.00,
             'payment_method' => $request->payment_method,
+            'description' => $request->description,
         ]);
-
-        // Atualiza o estoque
-        $glass->quantity -= $request->quantity;
-        $glass->save();
-
+    
+        // Atualiza o estoque e cria o relacionamento com os óculos vendidos
+        foreach ($request->glasses_id as $index => $glassId) {
+            $glass = Glasses::findOrFail($glassId);
+            $quantity = $request->quantity[$index];
+            
+            $sale->glasses()->attach($glassId, ['quantity' => $quantity]);
+            
+            $glass->quantity -= $quantity;
+            $glass->save();
+        }
+    
         return redirect()->route('sales.index')->with('success', 'Venda criada com sucesso e estoque atualizado.');
     }
-
+    
     public function show($id)
     {
         $sale = Sale::findOrFail($id);
@@ -76,43 +94,65 @@ class SaleController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'glasses_id' => 'required|exists:glasses,id',
+            'glasses_id' => 'required|array',
+            'glasses_id.*' => 'required|exists:glasses,id',
             'cliente_id' => 'required|exists:clientes,id',
-            'quantity' => 'required|integer|min:1',
+            'quantity' => 'required|array',
+            'quantity.*' => 'required|integer|min:1',
             'discount' => 'nullable|numeric',
-            'payment_method' => 'required|in:Cash,Credit Card,Debit Card,Bank Transfer',
+            'payment_method' => 'required|in:Dinheiro,Cartão de Crédito,Cartão de Débito,Pix',
         ]);
 
         $sale = Sale::findOrFail($id);
 
-        // Reverte o estoque antigo
-        $old_glass = Glasses::findOrFail($sale->glasses_id);
-        $old_glass->quantity += $sale->quantity;
-        $old_glass->save();
-
-        // Verifica se há estoque suficiente para a nova quantidade
-        $new_glass = Glasses::findOrFail($request->glasses_id);
-        if ($new_glass->quantity < $request->quantity) {
-            return redirect()->back()->withErrors('Estoque insuficiente para realizar a venda.');
+        // Reverter o estoque antigo
+        foreach ($sale->glasses as $glass) {
+            $glass->quantity += $glass->pivot->quantity;
+            $glass->save();
         }
 
-        // Calcula o novo valor bruto
-        $gross_value = $request->quantity * $new_glass->sale_price;
+        // Limpar relacionamentos antigos
+        $sale->glasses()->detach();
 
-        // Atualiza a venda com o novo valor bruto
+        $totalGrossValue = 0;
+
+        // Verificar estoque e calcular o novo valor bruto
+        foreach ($request->glasses_id as $index => $glassId) {
+            $glass = Glasses::findOrFail($glassId);
+            $quantity = $request->quantity[$index];
+
+            if ($glass->quantity < $quantity) {
+                return redirect()->back()->withErrors(['error' => 'Estoque insuficiente para realizar a venda do produto: ' . $glass->fantasy_code]);
+            }
+
+            $totalGrossValue += $quantity * $glass->sale_price;
+        }
+
+        // Verificar se o desconto não é maior que o valor bruto total
+        if ($request->discount > $totalGrossValue) {
+            return redirect()->back()->withErrors(['error' => 'O valor do desconto não pode ser maior que o valor total da venda.']);
+        }
+
+        // Atualizar a venda com o novo valor bruto
         $sale->update([
-            'glasses_id' => $request->glasses_id,
             'cliente_id' => $request->cliente_id,
-            'quantity' => $request->quantity,
-            'gross_value' => $gross_value,
-            'net_value' => $gross_value - ($request->discount ?? 0), // Calcula o valor líquido após o desconto
-            'discount' => $request->discount,
+            'gross_value' => $totalGrossValue,
+            'net_value' => $totalGrossValue - ($request->discount ?? 0), 
+            'discount' => $request->discount ?? 0.00,
             'payment_method' => $request->payment_method,
+            'description' => $request->description,
         ]);
 
         // Atualiza o estoque com a nova quantidade vendida
-        $new_glass->quantity -= $request->quantity;
-        $new_glass->save();
+        foreach ($request->glasses_id as $index => $glassId) {
+            $glass = Glasses::findOrFail($glassId);
+            $quantity = $request->quantity[$index];
+
+            $sale->glasses()->attach($glassId, ['quantity' => $quantity]);
+
+            $glass->quantity -= $quantity;
+            $glass->save();
+        }
 
         return redirect()->route('sales.index')->with('success', 'Venda atualizada com sucesso e estoque ajustado.');
     }
@@ -121,11 +161,13 @@ class SaleController extends Controller
     {
         $sale = Sale::findOrFail($id);
 
-        // Reverte o estoque ao deletar a venda
-        $glass = Glasses::findOrFail($sale->glasses_id);
-        $glass->quantity += $sale->quantity;
-        $glass->save();
+        // Reverter o estoque ao deletar a venda
+        foreach ($sale->glasses as $glass) {
+            $glass->quantity += $glass->pivot->quantity;
+            $glass->save();
+        }
 
+        // Deletar a venda
         $sale->delete();
 
         return redirect()->route('sales.index')->with('success', 'Venda excluída com sucesso e estoque revertido.');

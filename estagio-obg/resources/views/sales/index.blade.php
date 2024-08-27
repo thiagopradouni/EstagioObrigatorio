@@ -51,7 +51,7 @@
                             @foreach($sales as $sale)
                                 <tr>
                                     <td class="align-middle">{{ $loop->iteration + ($sales->currentPage() - 1) * $sales->perPage() }}</td>
-                                    <td class="align-middle">{{ $sale->glasses->description }}</td>
+                                    <td class="align-middle">{{ $sale->glasses->fantasy_code }}</td>
                                     <td class="align-middle">{{ $sale->cliente->nome }}</td>
                                     <td class="align-middle">{{ number_format($sale->gross_value, 2, ',', '.') }}</td>
                                     <td class="align-middle">{{ number_format($sale->net_value, 2, ',', '.') }}</td>

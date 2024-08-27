@@ -8,11 +8,11 @@
     <div class="row">
         <div class="col mb-3">
             <label class="form-label">Óculos</label>
-            <input type="text" class="form-control" value="{{ $sale->glasses->description }}" readonly>
+            <input type="text" class="form-control" value="{{ $sale->glasses->fantasy_code }}" readonly>
         </div>
         <div class="col mb-3">
             <label class="form-label">Nome do Cliente</label>
-            <input type="text" class="form-control" value="{{ $sale->cliente->name }}" readonly>
+            <input type="text" class="form-control" value="{{ $sale->cliente->nome }}" readonly>
         </div>
     </div>
     <div class="row">
