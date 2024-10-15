@@ -17,15 +17,36 @@
     <form action="{{ route('sales.update', $sale->id) }}" method="POST">
         @csrf
         @method('PUT')
+
+        <div id="glasses-container">
+            @foreach($sale->glasses as $glass)
+                <div class="row mb-3 glasses-item">
+                    <div class="col">
+                        <label for="glasses_id" class="form-label">Selecionar Óculos</label>
+                        <select name="glasses_id[]" class="form-control" required>
+                            @foreach($glasses as $g)
+                                <option value="{{ $g->id }}" {{ $g->id == $glass->id ? 'selected' : '' }}>{{ $g->fantasy_code }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="quantity" class="form-label">Quantidade</label>
+                        <input type="number" name="quantity[]" class="form-control" value="{{ $glass->pivot->quantity }}" required>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-danger remove-glass mt-4">Remover</button>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
         <div class="row mb-3">
             <div class="col">
-                <label for="glasses_id" class="form-label">Selecionar Óculos</label>
-                <select name="glasses_id" id="glasses_id" class="form-control" required>
-                    @foreach($glasses as $glass)
-                        <option value="{{ $glass->id }}" {{ $glass->id == $sale->glasses_id ? 'selected' : '' }}>{{ $glass->fantasy_code }}</option>
-                    @endforeach
-                </select>
+                <button type="button" id="add-glass" class="btn btn-primary">Adicionar Óculos</button>
             </div>
+        </div>
+
+        <div class="row mb-3">
             <div class="col">
                 <label for="cliente_id" class="form-label">Selecionar Cliente</label>
                 <select name="cliente_id" id="cliente_id" class="form-control" required>
@@ -33,12 +54,6 @@
                         <option value="{{ $cliente->id }}" {{ $cliente->id == $sale->cliente_id ? 'selected' : '' }}>{{ $cliente->nome }}</option>
                     @endforeach
                 </select>
-            </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col">
-                <label for="quantity" class="form-label">Quantidade</label>
-                <input type="number" name="quantity" id="quantity" class="form-control" value="{{ $sale->quantity }}" required>
             </div>
             <div class="col">
                 <label for="payment_method" class="form-label">Forma de Pagamento</label>
@@ -50,22 +65,41 @@
                 </select>
             </div>
         </div>
+
         <div class="row mb-3">
             <div class="col">
                 <label for="discount" class="form-label">Desconto</label>
                 <input type="number" name="discount" id="discount" class="form-control" step="0.01" value="{{ $sale->discount ?? 0.00 }}">
             </div>
         </div>
+
         <div class="row mb-3">
             <div class="col">
                 <label for="description" class="form-label">Descrição</label>
                 <textarea name="description" id="description" class="form-control">{{ $sale->description }}</textarea>
             </div>
         </div>
+
         <div class="row">
             <div class="d-grid">
                 <button type="submit" class="btn btn-warning">Atualizar</button>
             </div>
         </div>
     </form>
+
+    <script>
+        document.getElementById('add-glass').addEventListener('click', function() {
+            let container = document.getElementById('glasses-container');
+            let newGlass = container.querySelector('.glasses-item').cloneNode(true);
+            newGlass.querySelector('input').value = '';
+            container.appendChild(newGlass);
+        });
+
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.classList.contains('remove-glass')) {
+                let glassesItem = e.target.closest('.glasses-item');
+                glassesItem.remove();
+            }
+        });
+    </script>
 @endsection

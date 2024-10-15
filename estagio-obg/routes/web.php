@@ -4,7 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\GlassesController;
-use App\Http\Controllers\SaleController;  // Adicionei o SaleController aqui
+use App\Http\Controllers\SaleController; 
+use App\Http\Controllers\PostSaleController;
+
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -47,6 +49,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
 
-    Route::resource('sales', SaleController::class); // Movei para fora da middleware duplicada
+    Route::resource('sales', SaleController::class);
 
+    Route::resource('post_sales', PostSaleController::class);
 });

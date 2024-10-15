@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -28,7 +27,12 @@ class Sale extends Model
         return $this->belongsTo(Cliente::class);
     }
 
-    public static function boot()
+    public function postSales()
+    {
+        return $this->hasMany(PostSale::class);
+    }
+
+    protected static function boot()
     {
         parent::boot();
 
@@ -74,6 +78,11 @@ class Sale extends Model
             if (is_null($sale->discount)) {
                 $sale->discount = 0.00;
             }
+        });
+
+        static::deleting(function ($sale) {
+            // Excluir todos os registros de pós-venda relacionados
+            $sale->postSales()->delete();
         });
     }
 }

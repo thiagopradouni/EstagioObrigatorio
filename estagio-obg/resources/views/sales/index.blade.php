@@ -39,10 +39,10 @@
                     <thead class="table-primary">
                         <tr>
                             <th>#</th>
-                            <th>Óculos</th>
                             <th>Cliente</th>
-                            <th>Valor Bruto</th>
-                            <th>Valor Líquido</th>
+                            <th>Forma de Pagamento</th>
+                                <th>Valor Bruto</th>
+                                <th>Valor Líquido</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -51,8 +51,8 @@
                             @foreach($sales as $sale)
                                 <tr>
                                     <td class="align-middle">{{ $loop->iteration + ($sales->currentPage() - 1) * $sales->perPage() }}</td>
-                                    <td class="align-middle">{{ $sale->glasses->fantasy_code }}</td>
                                     <td class="align-middle">{{ $sale->cliente->nome }}</td>
+                                    <td class="align-middle">{{ $sale->payment_method }}</td>
                                     <td class="align-middle">{{ number_format($sale->gross_value, 2, ',', '.') }}</td>
                                     <td class="align-middle">{{ number_format($sale->net_value, 2, ',', '.') }}</td>
                                     <td class="align-middle text-center">

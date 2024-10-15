@@ -6,14 +6,30 @@ use Illuminate\Http\Request;
 use App\Models\Sale;
 use App\Models\Glasses;
 use App\Models\Cliente;
+use App\Models\PostSale;  // Adicionado para incluir o modelo de pós-venda
+use Carbon\Carbon;
 
 class SaleController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $sales = Sale::orderBy('created_at', 'DESC')->paginate(10); 
+        // Get the search term from the request
+        $search = $request->input('search');
+    
+        // Check if search term is provided
+        if ($search) {
+            $sales = Sale::whereHas('cliente', function ($query) use ($search) {
+                $query->where('nome', 'LIKE', "%$search%");
+            })
+            ->orderBy('created_at', 'DESC')
+            ->paginate(10);
+        } else {
+            $sales = Sale::orderBy('created_at', 'DESC')->paginate(10);
+        }
+    
         return view('sales.index', compact('sales'));
     }
+    
     
     public function create()
     {
@@ -73,6 +89,22 @@ class SaleController extends Controller
             $glass->quantity -= $quantity;
             $glass->save();
         }
+
+        // Agendar pós-vendas
+        PostSale::create([
+            'sale_id' => $sale->id,
+            'scheduled_date' => Carbon::now()->addWeek(),
+        ]);
+
+        PostSale::create([
+            'sale_id' => $sale->id,
+            'scheduled_date' => Carbon::now()->addWeeks(2),
+        ]);
+
+        PostSale::create([
+            'sale_id' => $sale->id,
+            'scheduled_date' => Carbon::now()->addYear(),
+        ]);
     
         return redirect()->route('sales.index')->with('success', 'Venda criada com sucesso e estoque atualizado.');
     }
@@ -160,16 +192,20 @@ class SaleController extends Controller
     public function destroy($id)
     {
         $sale = Sale::findOrFail($id);
-
+    
+        // Excluir os registros de pós-venda relacionados
+        $sale->postSales()->delete();
+    
         // Reverter o estoque ao deletar a venda
         foreach ($sale->glasses as $glass) {
             $glass->quantity += $glass->pivot->quantity;
             $glass->save();
         }
-
+    
         // Deletar a venda
         $sale->delete();
-
+    
         return redirect()->route('sales.index')->with('success', 'Venda excluída com sucesso e estoque revertido.');
     }
+    
 }

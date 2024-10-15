@@ -5,26 +5,31 @@
 @section('contents')
     <h1 class="mb-0">Detalhes da Venda</h1>
     <hr />
-    <div class="row">
-        <div class="col mb-3">
-            <label class="form-label">Óculos</label>
-            <input type="text" class="form-control" value="{{ $sale->glasses->fantasy_code }}" readonly>
+    
+    @foreach($sale->glasses as $glass)
+        <div class="row">
+            <div class="col mb-3">
+                <label class="form-label">Óculos</label>
+                <input type="text" class="form-control" value="{{ $glass->fantasy_code }}" readonly>
+            </div>
+            <div class="col mb-3">
+                <label class="form-label">Quantidade</label>
+                <input type="number" class="form-control" value="{{ $glass->pivot->quantity }}" readonly>
+            </div>
         </div>
+    @endforeach
+
+    <div class="row">
         <div class="col mb-3">
             <label class="form-label">Nome do Cliente</label>
             <input type="text" class="form-control" value="{{ $sale->cliente->nome }}" readonly>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col mb-3">
-            <label class="form-label">Quantidade</label>
-            <input type="number" class="form-control" value="{{ $sale->quantity }}" readonly>
         </div>
         <div class="col mb-3">
             <label class="form-label">Forma de Pagamento</label>
             <input type="text" class="form-control" value="{{ $sale->payment_method }}" readonly>
         </div>
     </div>
+
     <div class="row">
         <div class="col mb-3">
             <label class="form-label">Valor Bruto</label>
