@@ -1,10 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'Óculos')
+@section('title', 'Lista de Óculos')
 
 @section('contents')
     <div class="d-flex align-items-center justify-content-between mb-3">
-        <h1 class="h3 text-gray-800 mb-0">Lista de Óculos</h1>
         <a href="{{ route('glasses.create') }}" class="btn btn-primary">
             <i class="fas fa-plus"></i> Adicionar Produto
         </a>

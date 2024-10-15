@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Cadastro de Clientes')
+@section('title', 'Lista de Clientes')
 
 @section('contents')
     <!-- Begin Page Content -->
@@ -8,7 +8,6 @@
 
         <!-- Page Heading -->
         <div class="d-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 text-gray-800 mb-0">Lista de Clientes</h1>
             <a href="{{ route('clientes.create') }}" class="btn btn-primary">
                 <i class="fas fa-plus"></i> Adicionar Cliente
             </a>

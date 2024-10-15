@@ -3,8 +3,7 @@
 @section('title', 'Pós-Vendas')
 
 @section('contents')
-    <h1 class="mb-0">Pós-Vendas</h1>
-    <hr />
+
     @if(Session::has('success'))
         <div class="alert alert-success" role="alert">
             {{ Session::get('success') }}
