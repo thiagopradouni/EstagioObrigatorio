@@ -17,25 +17,6 @@
         </div>
     @endif
 
-    <!-- Barra de Pesquisa -->
-    <div class="card mb-4">
-        <div class="card-header">
-            Filtros de Pesquisa
-        </div>
-        <div class="card-body">
-            <form action="{{ route('glasses.index') }}" method="GET" class="form-inline">
-                <div class="input-group w-100">
-                    <input type="text" name="search" class="form-control" placeholder="Pesquisar por descrição, código, marca..." value="{{ request()->query('search') }}">
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-search"></i> Pesquisar
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-
     <!-- Tabela de Óculos -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">

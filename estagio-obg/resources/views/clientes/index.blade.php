@@ -21,25 +21,6 @@
             </div>
         @endif
 
-        <!-- Barra de Pesquisa -->
-        <div class="card mb-4">
-            <div class="card-header">
-                Filtros de Pesquisa
-            </div>
-            <div class="card-body">
-                <form action="{{ route('clientes.index') }}" method="GET" class="form-inline">
-                    <div class="input-group w-100">
-                        <input type="text" name="search" class="form-control" placeholder="Pesquisar por nome, CPF, email..." value="{{ request()->query('search') }}">
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-search"></i> Pesquisar
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-
         <!-- Tabela de Clientes -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">

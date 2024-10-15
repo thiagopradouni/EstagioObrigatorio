@@ -8,19 +8,6 @@
         <a href="{{ route('sales.create') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Adicionar Venda</a>
     </div>
 
-    <!-- Filtros e Pesquisa -->
-    <div class="card mb-4">
-        <div class="card-header">
-            Filtros de Pesquisa
-        </div>
-        <div class="card-body">
-            <form method="GET" action="{{ route('sales.index') }}" class="form-inline">
-                <input type="text" name="search" class="form-control mr-2" placeholder="Buscar por Cliente..." value="{{ request('search') }}">
-                <button type="submit" class="btn btn-secondary"><i class="fas fa-search"></i> Buscar</button>
-            </form>
-        </div>
-    </div>
-
     <!-- Mensagem de Sucesso -->
     @if(Session::has('success'))
         <div class="alert alert-success" role="alert">
