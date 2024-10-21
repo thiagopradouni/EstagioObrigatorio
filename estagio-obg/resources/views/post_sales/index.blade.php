@@ -42,6 +42,7 @@
                                     <td class="align-middle">{{ $postSale->actual_date ? \Carbon\Carbon::parse($postSale->actual_date)->format('d/m/Y') : 'Não realizada' }}</td>
                                     <td class="align-middle">{{ $postSale->completed ? 'Sim' : 'Não' }}</td>
                                     <td class="align-middle text-center">
+                                        <a href="{{ route('post_sales.show', $postSale->id) }}" class="btn btn-sm btn-info" data-toggle="tooltip" title="Ver"><i class="fas fa-eye"></i></a>
                                         <a href="{{ route('post_sales.edit', $postSale->id) }}" class="btn btn-sm btn-warning" data-toggle="tooltip" title="Editar"><i class="fas fa-edit"></i></a>
                                         
                                         <!-- Botão de Deletar -->

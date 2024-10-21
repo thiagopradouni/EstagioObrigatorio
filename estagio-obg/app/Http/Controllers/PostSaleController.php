@@ -67,4 +67,10 @@ class PostSaleController extends Controller
 
         return redirect()->route('post_sales.index')->with('success', 'Pós-venda excluída com sucesso.');
     }
+
+    public function show($id)
+    {
+        $postSale = PostSale::findOrFail($id);
+        return view('post_sales.show', compact('postSale'));
+    }
 }
