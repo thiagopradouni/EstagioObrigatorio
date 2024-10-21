@@ -56,7 +56,7 @@
                                 <td class="align-middle">{{ $glass->color }}</td>
                                 <td class="align-middle">
                                     <div class="d-flex justify-content-center">
-                                        <a href="{{ route('glasses.show', $glass->id) }}" class="btn btn-sm btn-secondary mx-1" data-toggle="tooltip" title="Detalhes">
+                                        <a href="{{ route('glasses.show', $glass->id) }}" class="btn btn-sm btn-info mx-1" data-toggle="tooltip" title="Detalhes">
                                             <i class="fas fa-eye"></i>
                                         </a>
                                         <a href="{{ route('glasses.edit', $glass->id) }}" class="btn btn-sm btn-warning mx-1" data-toggle="tooltip" title="Editar">

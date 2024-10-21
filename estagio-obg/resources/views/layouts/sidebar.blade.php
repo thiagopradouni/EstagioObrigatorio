@@ -1,7 +1,7 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
   
   <!-- Sidebar - Brand -->
-  <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('dashboard') }}">
+  <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('clientes.index') }}">
     <div class="sidebar-brand-icon rotate-n-15">
       <i class="fas fa-glasses"></i>
     </div>
@@ -11,13 +11,7 @@
   <!-- Divider -->
   <hr class="sidebar-divider my-0">
   
-  <!-- Nav Item - Dashboard -->
-  <li class="nav-item">
-    <a class="nav-link" href="{{ route('dashboard') }}">
-      <i class="fas fa-fw fa-tachometer-alt"></i>
-      <span>Dashboard</span>
-    </a>
-  </li>
+
   
   <!-- Nav Item - Clientes -->
   <li class="nav-item">
@@ -48,6 +42,14 @@
     <a class="nav-link" href="{{ route('post_sales.index') }}">
       <i class="fas fa-fw fa-check-circle"></i>
       <span>Pós-Vendas</span>
+    </a>
+  </li>
+
+  <!-- Nav Item - Solicitações de Lentes -->
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('lensrequests.index') }}">
+      <i class="fas fa-fw fa-eye"></i>
+      <span>Solicitações de Lentes</span>
     </a>
   </li>
   

@@ -48,7 +48,7 @@
                                     <td class="align-middle">{{ $cliente->idade }}</td>
                                     <td class="align-middle">
                                         <div class="d-flex justify-content-center">
-                                            <a href="{{ route('clientes.show', $cliente->id) }}" class="btn btn-sm btn-secondary mx-1" data-toggle="tooltip" title="Detalhes">
+                                            <a href="{{ route('clientes.show', $cliente->id) }}" class="btn btn-sm btn-info mx-1" data-toggle="tooltip" title="Detalhes">
                                                 <i class="fas fa-eye"></i>
                                             </a>
                                             <a href="{{ route('clientes.edit', $cliente->id) }}" class="btn btn-sm btn-warning mx-1" data-toggle="tooltip" title="Editar">

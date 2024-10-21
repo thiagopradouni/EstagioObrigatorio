@@ -6,6 +6,7 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\GlassesController;
 use App\Http\Controllers\SaleController; 
 use App\Http\Controllers\PostSaleController;
+use App\Http\Controllers\LensRequestController;
 
 
 Route::get('/', function () {
@@ -23,9 +24,9 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('clientes.index', function () {
+        return view('clientes.index');
+    })->name('clientes.index');
 
     Route::controller(ClienteController::class)->prefix('clientes')->group(function () {
         Route::get('', 'index')->name('clientes.index');
@@ -45,8 +46,10 @@ Route::middleware('auth')->group(function () {
         Route::get('edit/{id}', 'edit')->name('glasses.edit');
         Route::put('edit/{id}', 'update')->name('glasses.update');
         Route::delete('destroy/{id}', 'destroy')->name('glasses.destroy');
-    });
+    });     
 
+    Route::resource('lensrequests', LensRequestController::class);
+    
     Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
 
     Route::resource('sales', SaleController::class);
