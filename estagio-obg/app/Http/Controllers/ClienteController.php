@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Cliente;
@@ -15,8 +14,10 @@ class ClienteController extends Controller
         // Adicionando busca se necessário
         $search = $request->input('search');
 
+        // Definindo a query
         $clientes = Cliente::query();
 
+        // Condição de busca
         if ($search) {
             $clientes->where('nome', 'like', "%{$search}%")
                      ->orWhere('cpf', 'like', "%{$search}%")
@@ -24,8 +25,8 @@ class ClienteController extends Controller
         }
 
         // Paginação
-        $clientes = $clientes->paginate(10);
-        $clientes = Cliente::paginate(10);
+        $clientes = $clientes->paginate(40);
+
         return view('clientes.index', compact('clientes'));
     }
 
@@ -38,7 +39,7 @@ class ClienteController extends Controller
     {
         $this->validateCliente($request);
 
-        $cliente = Cliente::create($request->all());
+        Cliente::create($request->all());
 
         return redirect()->route('clientes.index')->with('success', 'Cliente cadastrado com sucesso.');
     }
@@ -48,14 +49,12 @@ class ClienteController extends Controller
         $cliente = Cliente::findOrFail($id);
         return view('clientes.show', compact('cliente'));
     }
-    
 
     public function edit($id)
     {
         $cliente = Cliente::findOrFail($id);
         return view('clientes.edit', compact('cliente'));
     }
-    
 
     public function update(Request $request, Cliente $cliente)
     {
@@ -70,10 +69,9 @@ class ClienteController extends Controller
     {
         $cliente = Cliente::findOrFail($id);
         $cliente->delete();
-    
+
         return redirect()->route('clientes.index')->with('success', 'Cliente deletado com sucesso.');
     }
-    
 
     protected function validateCliente(Request $request, $ignoreId = null)
     {

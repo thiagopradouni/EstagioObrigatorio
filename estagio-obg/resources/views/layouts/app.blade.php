@@ -15,8 +15,8 @@
   <!-- Custom styles for this template-->
   <link href="{{ asset('admin_assets/css/sb-admin-2.min.css') }}" rel="stylesheet">
 
-  <!-- Custom styles for this page -->
-  <link href="{{ asset('admin_assets/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+  <!-- Custom styles for DataTables -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css">
 </head>
 
 <body id="page-top">
@@ -47,9 +47,6 @@
   
           @yield('contents')
   
-          <!-- Content Row -->
-  
-  
         </div>
         <!-- /.container-fluid -->
   
@@ -74,17 +71,17 @@
   <!-- Bootstrap core JavaScript-->
   <script src="{{ asset('admin_assets/vendor/jquery/jquery.min.js') }}"></script>
   <script src="{{ asset('admin_assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  
   <!-- Core plugin JavaScript-->
   <script src="{{ asset('admin_assets/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-  <script src="{{ asset('admin_assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
   
-  <script src="{{ asset('admin_assets/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+  <!-- DataTables JavaScript -->
+  <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
 
   <!-- Custom scripts for all pages-->
   <script src="{{ asset('admin_assets/js/sb-admin-2.min.js') }}"></script>
-  <!-- Page level plugins -->
-  <script src="{{ asset('admin_assets/js/demo/datatables-demo.js') }}"></script>
 
-  <script src="{{ asset('admin_assets/vendor/chart.js/Chart.min.js') }}"></script>
+
 </body>
 </html>
