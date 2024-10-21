@@ -82,6 +82,32 @@
   <!-- Custom scripts for all pages-->
   <script src="{{ asset('admin_assets/js/sb-admin-2.min.js') }}"></script>
 
-
+  <!-- Initialize DataTables -->
+  <script>
+      $(document).ready(function() {
+          $('#dataTable').DataTable({
+              "paging": true,
+              "lengthChange": true,
+              "pageLength": 10,
+              "searching": true,
+              "ordering": true,
+              "info": true,
+              "autoWidth": false,
+              "responsive": true,
+              "language": {
+                  "paginate": {
+                      "next": "Próximo",
+                      "previous": "Anterior"
+                  },
+                  "lengthMenu": "Mostrar _MENU_ registros por página",
+                  "zeroRecords": "Nenhum registro encontrado",
+                  "info": "Mostrando _START_ até _END_ de _TOTAL_ registros",
+                  "infoEmpty": "Mostrando 0 até 0 de 0 registros",
+                  "infoFiltered": "(filtrado de _MAX_ registros no total)",
+                  "search": "Buscar:"
+              }
+          });
+      });
+  </script>
 </body>
 </html>
