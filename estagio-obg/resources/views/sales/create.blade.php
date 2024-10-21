@@ -5,8 +5,6 @@
 @section('contents')
     <div class="card shadow mb-4">
         <div class="card-body">
-            <h1 class="mb-0">Adicionar Nova Venda</h1>
-            <hr />
 
             @if ($errors->any())
                 <div class="alert alert-danger">
