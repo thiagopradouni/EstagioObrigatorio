@@ -5,8 +5,6 @@
 @section('contents')
     <div class="card shadow mb-4">
         <div class="card-body">
-            <h1 class="mb-0">Detalhes do Cliente</h1>
-            <hr />
             
             <!-- Nome e CPF -->
             <div class="row mb-3">

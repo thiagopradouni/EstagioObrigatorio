@@ -10,7 +10,7 @@ class LensRequestController extends Controller
 {
     public function index()
     {
-        $requests = LensRequest::paginate(10); // Paginação
+        $requests = LensRequest::paginate(40); // Paginação
         return view('lensrequests.index', compact('requests'));
     }
 
@@ -22,18 +22,27 @@ class LensRequestController extends Controller
 
     public function store(Request $request)
     {
-        // Validação
         $request->validate([
             'customer_id' => 'required|exists:clientes,id',
-            'lens_type' => 'required|string|max:255',
-            'quantity' => 'required|integer|min:1',
+            'lens_type' => 'required|string',
+            'sphere_od' => 'nullable|numeric',
+            'sphere_os' => 'nullable|numeric',
+            'cylinder_od' => 'nullable|numeric',
+            'cylinder_os' => 'nullable|numeric',
+            'axis_od' => 'nullable|integer',
+            'axis_os' => 'nullable|integer',
+            'add' => 'nullable|numeric',
+            'pupil_distance' => 'nullable|numeric',
+            'lens_material' => 'nullable|string',
+            'treatment' => 'nullable|string',
+            'notes' => 'nullable|string',
         ]);
-
-        // Criar solicitação
+    
         LensRequest::create($request->all());
-
-        return redirect()->route('lensrequests.index')->with('success', 'Solicitação de lente criada com sucesso.');
+    
+        return redirect()->route('lensrequests.index')->with('success', 'Solicitação e prescrição de lentes criadas com sucesso.');
     }
+    
 
     public function show($id)
     {
@@ -54,8 +63,18 @@ class LensRequestController extends Controller
         // Validação
         $request->validate([
             'customer_id' => 'required|exists:clientes,id',
-            'lens_type' => 'required|string|max:255',
-            'quantity' => 'required|integer|min:1',
+            'lens_type' => 'required|string',
+            'sphere_od' => 'nullable|numeric',
+            'sphere_os' => 'nullable|numeric',
+            'cylinder_od' => 'nullable|numeric',
+            'cylinder_os' => 'nullable|numeric',
+            'axis_od' => 'nullable|integer',
+            'axis_os' => 'nullable|integer',
+            'add' => 'nullable|numeric',
+            'pupil_distance' => 'nullable|numeric',
+            'lens_material' => 'nullable|string',
+            'treatment' => 'nullable|string',
+            'notes' => 'nullable|string',
         ]);
 
         // Atualizar solicitação

@@ -12,8 +12,6 @@
                 </div>
             @endif
 
-            <h4 class="mb-3">Detalhes da Pós-Venda</h4>
-
             <!-- Detalhes da Venda Selecionada -->
             <div class="form-group mb-3">
                 <label for="sale_id" class="form-label"><strong>Venda:</strong></label>

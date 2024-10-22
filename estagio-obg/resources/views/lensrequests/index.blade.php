@@ -17,7 +17,7 @@
     <!-- Tabela de Solicitações de Lentes -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Solicitações de Lentes ({{ $requests->total() }})</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Solicitações de Lentes</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -27,7 +27,7 @@
                             <th>#</th>
                             <th>Cliente</th>
                             <th>Tipo de Lente</th>
-                            <th>Quantidade</th>
+                            <th>Material da Lente</th> <!-- Alterado para exibir o material -->
                             <th>Data da Solicitação</th>
                             <th>Ações</th>
                         </tr>
@@ -39,7 +39,7 @@
                                     <td class="align-middle">{{ $loop->iteration + ($requests->currentPage() - 1) * $requests->perPage() }}</td>
                                     <td class="align-middle">{{ $request->customer->nome }}</td>
                                     <td class="align-middle">{{ $request->lens_type }}</td>
-                                    <td class="align-middle">{{ $request->quantity }}</td>
+                                    <td class="align-middle">{{ $request->lens_material }}</td> <!-- Exibindo o material da lente -->
                                     <td class="align-middle">{{ $request->created_at->format('d/m/Y H:i') }}</td>
                                     <td class="align-middle text-center">
                                         <a href="{{ route('lensrequests.show', $request->id) }}" class="btn btn-sm btn-info" data-toggle="tooltip" title="Detalhes"><i class="fas fa-eye"></i></a>

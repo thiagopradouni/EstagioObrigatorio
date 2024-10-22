@@ -46,6 +46,7 @@ class SaleController extends Controller
             'cliente_id' => 'required|exists:clientes,id',
             'quantity' => 'required|array',
             'quantity.*' => 'required|integer|min:1',
+            '' => 'nullable|numeric',
             'discount' => 'nullable|numeric',
             'payment_method' => 'required|in:Dinheiro,Cartão de Crédito,Cartão de Débito,Pix',
         ]);
@@ -61,7 +62,9 @@ class SaleController extends Controller
                 return redirect()->back()->withErrors(['error' => 'Estoque insuficiente para realizar a venda do produto: ' . $glass->fantasy_code]);
             }
     
+            // Calcula o valor bruto baseado no preço de venda dos óculos e a quantidade
             $totalGrossValue += $quantity * $glass->sale_price;
+            
         }
     
         // Verifica se o desconto não é maior que o valor bruto total
@@ -69,10 +72,10 @@ class SaleController extends Controller
             return redirect()->back()->withErrors(['error' => 'O valor do desconto não pode ser maior que o valor total da venda.']);
         }
     
-        // Cria a venda
+        // Cria a venda com o valor bruto e valor líquido calculado corretamente
         $sale = Sale::create([
             'cliente_id' => $request->cliente_id,
-            'gross_value' => $totalGrossValue,
+            'gross_value' => $totalGrossValue, // Calcula o valor bruto corretamente
             'net_value' => $totalGrossValue - ($request->discount ?? 0), 
             'discount' => $request->discount ?? 0.00,
             'payment_method' => $request->payment_method,
@@ -83,31 +86,33 @@ class SaleController extends Controller
         foreach ($request->glasses_id as $index => $glassId) {
             $glass = Glasses::findOrFail($glassId);
             $quantity = $request->quantity[$index];
-            
+    
+            // Associando a venda com os óculos vendidos e a quantidade
             $sale->glasses()->attach($glassId, ['quantity' => $quantity]);
-            
+    
+            // Atualiza o estoque
             $glass->quantity -= $quantity;
             $glass->save();
         }
-
+    
         // Agendar pós-vendas
         PostSale::create([
             'sale_id' => $sale->id,
-            'scheduled_date' => Carbon::now()->addWeek(),
+            'scheduled_date' => Carbon::now()->addMonths(1),
         ]);
-
+    
         PostSale::create([
             'sale_id' => $sale->id,
-            'scheduled_date' => Carbon::now()->addWeeks(2),
+            'scheduled_date' => Carbon::now()->addMonths(6),
         ]);
-
+    
         PostSale::create([
             'sale_id' => $sale->id,
             'scheduled_date' => Carbon::now()->addYear(),
         ]);
     
         return redirect()->route('sales.index')->with('success', 'Venda criada com sucesso e estoque atualizado.');
-    }
+    }    
     
     public function show($id)
     {

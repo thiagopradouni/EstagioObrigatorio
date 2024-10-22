@@ -17,72 +17,39 @@ class Sale extends Model
         'net_value',
     ];
 
+    // Relacionamento com óculos (Glasses)
     public function glasses()
     {
         return $this->belongsToMany(Glasses::class, 'sale_glass', 'sale_id', 'glass_id')->withPivot('quantity');
     }
-    
+
+    // Relacionamento com cliente
     public function cliente()
     {
         return $this->belongsTo(Cliente::class);
     }
 
+    // Relacionamento com pós-vendas
     public function postSales()
     {
         return $this->hasMany(PostSale::class);
     }
 
+    // Removido o cálculo de valor bruto do método creating/updating, 
+    // já que isso deve ser tratado no controller antes da criação ou atualização da venda.
     protected static function boot()
     {
         parent::boot();
 
-        static::creating(function ($sale) {
-            $totalGrossValue = 0;
-
-            foreach ($sale->glasses as $glass) {
-                $pivotQuantity = $glass->pivot->quantity;
-
-                // Verifica se a quantidade vendida excede a quantidade em estoque
-                if ($pivotQuantity > $glass->quantity) {
-                    throw new \Exception('A quantidade vendida excede a quantidade disponível em estoque para o produto: ' . $glass->fantasy_code);
-                }
-
-                $totalGrossValue += $pivotQuantity * $glass->sale_price;
-            }
-
-            $sale->gross_value = $totalGrossValue;
-
-            // Define o valor de discount como 0.00 se estiver nulo
-            if (is_null($sale->discount)) {
-                $sale->discount = 0.00;
-            }
-        });
-
-        static::updating(function ($sale) {
-            $totalGrossValue = 0;
-
-            foreach ($sale->glasses as $glass) {
-                $pivotQuantity = $glass->pivot->quantity;
-
-                // Verifica se a quantidade vendida excede a quantidade em estoque
-                if ($pivotQuantity > $glass->quantity) {
-                    throw new \Exception('A quantidade vendida excede a quantidade disponível em estoque para o produto: ' . $glass->fantasy_code);
-                }
-
-                $totalGrossValue += $pivotQuantity * $glass->sale_price;
-            }
-
-            $sale->gross_value = $totalGrossValue;
-
-            // Define o valor de discount como 0.00 se estiver nulo
-            if (is_null($sale->discount)) {
-                $sale->discount = 0.00;
-            }
-        });
-
         static::deleting(function ($sale) {
             // Excluir todos os registros de pós-venda relacionados
             $sale->postSales()->delete();
+
+            // Reverter o estoque ao deletar a venda
+            foreach ($sale->glasses as $glass) {
+                $glass->quantity += $glass->pivot->quantity;
+                $glass->save();
+            }
         });
     }
 }

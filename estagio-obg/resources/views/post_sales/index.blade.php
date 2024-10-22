@@ -17,7 +17,7 @@
     <!-- Tabela de Pós-Vendas -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Lista de Pós-Vendas ({{ $postSales->total() }})</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Pós-Vendas</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -62,11 +62,6 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-
-        <!-- Paginação -->
-        <div class="card-footer d-flex justify-content-center">
-            {{ $postSales->links() }}
         </div>
     </div>
 @endsection

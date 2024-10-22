@@ -5,9 +5,6 @@
 @section('contents')
     <div class="card shadow mb-4">
         <div class="card-body">
-            <h1 class="mb-0">Detalhes da Venda</h1>
-            <hr />
-
             @foreach($sale->glasses as $glass)
                 <div class="row">
                     <div class="col mb-3">
