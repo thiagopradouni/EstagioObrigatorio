@@ -5,7 +5,7 @@
 @section('contents')
     <div class="d-flex align-items-center justify-content-between mb-3">
         <a href="{{ route('glasses.create') }}" class="btn btn-primary">
-            <i class="fas fa-plus"></i> Adicionar Produto
+            <i class="fas fa-plus"></i> Adicionar
         </a>
     </div>
 

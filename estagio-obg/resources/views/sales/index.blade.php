@@ -4,7 +4,7 @@
 
 @section('contents')
     <div class="d-flex align-items-center justify-content-between mb-4">
-        <a href="{{ route('sales.create') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Adicionar Venda</a>
+        <a href="{{ route('sales.create') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Adicionar</a>
     </div>
 
     <!-- Mensagem de Sucesso -->

@@ -11,9 +11,17 @@ class LensRequest extends Model
     protected $fillable = [
         'customer_id',
         'lens_type',
-        'quantity',
-        'prescription_details',
-        'additional_notes',
+        'sphere_od',
+        'sphere_os',
+        'cylinder_od',
+        'cylinder_os',
+        'axis_od',
+        'axis_os',
+        'add',
+        'pupil_distance',
+        'lens_material',
+        'treatment',
+        'notes',
     ];
 
     public function customer()

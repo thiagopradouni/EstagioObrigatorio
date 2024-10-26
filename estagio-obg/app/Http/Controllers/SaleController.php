@@ -22,9 +22,9 @@ class SaleController extends Controller
                 $query->where('nome', 'LIKE', "%$search%");
             })
             ->orderBy('created_at', 'DESC')
-            ->paginate(10);
+            ->paginate(40);
         } else {
-            $sales = Sale::orderBy('created_at', 'DESC')->paginate(10);
+            $sales = Sale::orderBy('created_at', 'DESC')->paginate(40);
         }
     
         return view('sales.index', compact('sales'));

@@ -4,7 +4,7 @@
 
 @section('contents')
     <div class="d-flex align-items-center justify-content-between mb-4">
-        <a href="{{ route('lensrequests.create') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Adicionar Solicitação</a>
+        <a href="{{ route('lensrequests.create') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Adicionar</a>
     </div>
 
     <!-- Mensagem de Sucesso -->

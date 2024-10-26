@@ -53,14 +53,13 @@ class LensRequestController extends Controller
     public function edit($id)
     {
         $request = LensRequest::findOrFail($id);
-        $clientes = Cliente::all();  // Certifique-se de que este código está correto
+        $clientes = Cliente::all();
         return view('lensrequests.edit', compact('request', 'clientes'));
     }
     
 
     public function update(Request $request, $id)
     {
-        // Validação
         $request->validate([
             'customer_id' => 'required|exists:clientes,id',
             'lens_type' => 'required|string',

@@ -10,7 +10,7 @@ class PostSaleController extends Controller
 {
     public function index()
     {
-        $postSales = PostSale::with('sale.cliente')->orderBy('scheduled_date', 'ASC')->paginate(10);
+        $postSales = PostSale::with('sale.cliente')->orderBy('scheduled_date', 'ASC')->paginate(40);
         return view('post_sales.index', compact('postSales'));
     }
 

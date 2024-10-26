@@ -22,11 +22,12 @@
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="actual_date" class="form-label">Data Realizada</label>
-                        <input type="date" name="actual_date" id="actual_date" class="form-control" value="{{ $postSale->actual_date ? $postSale->actual_date : '' }}">
+                        <input type="date" name="actual_date" id="actual_date" class="form-control" value="{{ old('actual_date', $postSale->actual_date) }}" required>
                     </div>
                     <div class="col-md-6 d-flex align-items-center">
+                        <input type="hidden" name="completed" value="0"> <!-- Envia '0' se o checkbox não for marcado -->
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" name="completed" id="completed" value="1" {{ $postSale->completed ? 'checked' : '' }}>
+                            <input class="form-check-input" type="checkbox" name="completed" id="completed" value="1" {{ old('completed', $postSale->completed) ? 'checked' : '' }} required>
                             <label class="form-check-label ms-2" for="completed">Concluída</label>
                         </div>
                     </div>
@@ -36,15 +37,15 @@
                 <div class="row mb-3">
                     <div class="col">
                         <label for="comments" class="form-label">Comentários</label>
-                        <textarea name="comments" id="comments" class="form-control">{{ $postSale->comments }}</textarea>
+                        <textarea name="comments" id="comments" class="form-control">{{ old('comments', $postSale->comments) }}</textarea>
                     </div>
                 </div>
 
                 <!-- Botões -->
-                    <div class="d-flex justify-content-between">
-                        <a href="{{ route('post_sales.index') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Voltar</a>
-                        <button type="submit" class="btn btn-warning">Atualizar Pós-Venda</button>
-                    </div>
+                <div class="d-flex justify-content-between">
+                    <a href="{{ route('post_sales.index') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Voltar</a>
+                    <button type="submit" class="btn btn-warning">Atualizar Pós-Venda</button>
+                </div>
             </form>
         </div>
     </div>

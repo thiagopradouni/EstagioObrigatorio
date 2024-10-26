@@ -9,7 +9,7 @@
         <!-- Page Heading -->
         <div class="d-flex align-items-center justify-content-between mb-4">
             <a href="{{ route('clientes.create') }}" class="btn btn-primary">
-                <i class="fas fa-plus"></i> Adicionar Cliente
+                <i class="fas fa-plus"></i> Adicionar
             </a>
         </div>
 
