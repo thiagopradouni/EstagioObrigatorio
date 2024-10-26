@@ -48,6 +48,10 @@
                         <input type="text" name="endereco" class="form-control" placeholder="Endereço" value="{{ old('endereco') }}" required>
                     </div>
                     <div class="col">
+                        <label for="numero" class="form-label">Número</label>
+                        <input type="text" name="numero" class="form-control" placeholder="Número" value="{{ old('numero') }}" required>
+                    </div>
+                    <div class="col">
                         <label for="telefone" class="form-label">Telefone</label>
                         <input type="text" name="telefone" class="form-control" placeholder="Telefone" value="{{ old('telefone') }}" required>
                     </div>
